@@ -1,4 +1,5 @@
 const kbpgp = require('kbpgp');
+const journal = require('./journal');
 
 const decryptSigned = (encData, senderPubKey) => {
   return new Promise((resolve, reject)=>{
@@ -19,11 +20,17 @@ const decryptSigned = (encData, senderPubKey) => {
 }
 
 const checkTxnId = (id) => {
-    
+    return new Promise((resolve, reject) =>{
+      journal.getTransaction(id,(err, block)=>{
+          if(err) resolve();
+          reject();
+      })
+    })
 }
 
 module.exports = {
-  decryptSigned: decryptSigned
+  decryptSigned: decryptSigned,
+  checkTxnId: checkTxnId 
 }
 
 /*

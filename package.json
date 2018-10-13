@@ -12,7 +12,10 @@
     "body-parser": "1.18.3",
     "deep-equal": "1.0.1",
     "express": "4.16.4",
+    "hypercore": "6.20.0",
+    "hypertrie": "3.1.0",
     "kbpgp": "2.0.80",
+    "node-rsa": "1.0.1",
     "openpgp": "4.1.1"
   },
   "devDependencies": {

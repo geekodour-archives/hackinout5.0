@@ -37,33 +37,37 @@ app.post('/transfer', (req, res) => {
                 if(!equal(metadata, req.body.metadata)){
                     throw "metadata and encryped metadata do not match"
                 }
-                const checkTxnId = util.checkTxnId;
-                const checkTime = util.checkTime;
-                const checkExist = util.exist;
-                const checkElgb = util.eligible;
+                const checkTxnId = utils.checkTxnId;
+                //const checkTime = utils.checkTime;
+                //const checkExist = utils.exist;
+                //const checkElgb = utils.eligible;
 
-                Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
+                //Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
+                Promise.all([checkTxnId])
                     .then((values)=>{
-                        console.log(values);
+                        console.log('allgoood')
                     })
                     .catch((e)=>{
-                        // raise errors
+                        console.log('something bad happened')
                     })
+
                 // 1. check txnId
                 // 2. check time
                 // 3. exist
                 // 4. eligible
                 //  1.1 fetchUserHead.amount > amt
+
                 // 5. generate temp key pair
                 // 6. encrypt 'something' with tempPrivateKey --> A
                 // 7. encrypt tempPublicKey with rcvrPubKey  --> B
                 // 8. hash = computeHash(File(A+B+signedData+metadata))
                 // 9. globalAppendLog(metadata, signedData, hash)
-                //  9.1 update hypertrie 
+                //  9.1 update hypertrie
                 // 10. send (metadata,A,B,signedData) to browser of sender
                 console.log('all good till now')
             })
             .catch((e)=>{
+                console.log(e)
                 throw "Wrong encrypted data or key"
             })
 
