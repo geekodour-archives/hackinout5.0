@@ -1,6 +1,7 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const equal = require('deep-equal');
+const rsa = require('node-rsa');
 
 const utils = require('./utils')
 
@@ -46,8 +47,12 @@ app.post('/transfer', (req, res) => {
                 Promise.all([checkTxnId])
                     .then((values)=>{
                         console.log('allgoood')
+                        let key = new rsa({b: 512});
+                        const encrypted = key.encrypt('something', 'base64');
+                        console.log(key.exportKey([ 'scheme-pkcs8-public' ]));
                     })
                     .catch((e)=>{
+                        console.log(e)
                         console.log('something bad happened')
                     })
 
