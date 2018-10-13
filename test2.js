@@ -1,4 +1,5 @@
 const kbpgp = require('kbpgp');
+
 const rishi_pgp_key  = `-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBFuX3LIBEADRlVLWh9LvMK2Kpp/4XqmTNM6XcsIysUTtrpS2JvU9YZ/vJ4qh
@@ -51,8 +52,6 @@ vjqYr3w0pYCv6QPp3rcLOBIDaVNH0jzq6g==
 =brOu
 -----END PGP PUBLIC KEY BLOCK-----`
 
-var rishi;
-
 kbpgp.KeyManager.import_from_armored_pgp({
   armored: rishi_pgp_key
 }, function(err, rishi) {
@@ -79,21 +78,42 @@ NRdgGFLFWwf6akeEmAj8i4wrkbcM1ZMHDSFhy8oKVptuFaIQFRKPI2Wx628UPCH3
 cGS8qMcj7sNhjDE=
 =f0CN
 -----END PGP MESSAGE-----`
-    kbpgp.unbox({keyfetch: ring, armored: message}, function(err, literals) {
-        if (err != null) {
-          return console.log("Problem: " + err);
-        } else {
-          console.log("decrypted message");
-          console.log(literals[0].toString());
-          var ds = km = null;
-          ds = literals[0].get_data_signer();
-          if (ds) { km = ds.get_key_manager(); }
-          if (km) {
-            console.log("Signed by PGP fingerprint");
-            console.log(km.get_pgp_fingerprint().toString('hex'));
-          }
-        }
-    });
+
+kbpgp.unbox({keyfetch: ring, armored: message}, function(err, literals) {
+    if (err != null) {
+      return console.log("Problem: " + err);
+      // this is a false thing, drop everything else
+      // return error code
+    } else {
+      console.log("decrypted message: ");
+      console.log(literals[0].toString()); // this is the metadata
+
+        // IF ANY OF THE FOLLOWING FAILS, RETURN ERROR
+        // 2. check if times are correct (HANDLE ALL TIME IN UTC!!!!)
+        //  2.1 check if start time is alright --> current_time of server - start_time == < 1 minute
+        //  2.1 check if end time is alright --> start_time + 24 hrs == end_time
+        // 3. exist()
+        //  3.1 check if both usernames are in keybase and have their public keys available
+        // 4. eligible()
+        //  4.1 if fetchuseramount(sender_username) > amount_to_be_sent
+        //  4.2 return TRUE/FALSE
+        //  4.3 send message that it could be that (user does not exist, user balance is low)
+        // 5. put into the log and get the index id
+        // 6. send data to user
+        // 7. browser create webtorrent using that data (Use File<> object)
+        // start seeding
+
+      //var ds = km = null;
+      //ds = literals[0].get_data_signer();
+      //if (ds) { km = ds.get_key_manager(); }
+      //if (km) {
+      //  console.log("Signed by PGP fingerprint");
+      //  console.log(km.get_pgp_fingerprint().toString('hex'));
+      //}
+
+
+    }
+});
 
 
   }
