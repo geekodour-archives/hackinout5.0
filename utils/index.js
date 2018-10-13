@@ -18,6 +18,17 @@ const decryptSigned = (encData, senderPubKey) => {
   })
 }
 
+const checkTxnId = (id) => {
+    
+}
+
 module.exports = {
   decryptSigned: decryptSigned
 }
+
+/*
+const checkTxnId = util.checkTxnId;
+const checkTime = util.checkTime;
+const checkExist = util.exist;
+const checkElgb = util.eligible;
+*/
