@@ -9,6 +9,9 @@
   "author": "Hrishikesh Barman <Hrishikesh Barman> (https://geekodour.github.io/)",
   "license": "ISC",
   "dependencies": {
+    "body-parser": "1.18.3",
+    "deep-equal": "1.0.1",
+    "express": "4.16.4",
     "kbpgp": "2.0.80",
     "openpgp": "4.1.1"
   },
