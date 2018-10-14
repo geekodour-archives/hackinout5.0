@@ -15,7 +15,7 @@ const utils = require('./utils')
 const app = express()
 app.use(bodyParser.json());
 
-const port = 3000
+const port = 7000
 
 
 app.get('/', (req, res) => res.send('Welcome to the API'))
