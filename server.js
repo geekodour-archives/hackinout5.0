@@ -1,7 +1,14 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const equal = require('deep-equal');
+const WebTorrent = require('webtorrent')
 const rsa = require('node-rsa');
+
+
+//var crypto = require('crypto');
+//const sha1 = require('simple-sha1')
+
+
 
 const utils = require('./utils')
 
@@ -27,6 +34,8 @@ app.post('/transfer', (req, res) => {
         let sndrPubKey = req.body.sndrPubKey;
         let rcvrPubKey = req.body.rcvrPubKey;
         let signedData = req.body.signedData;
+
+        let returnData = { encT : {}, encR : {}, metadata : req.body.metadata, encS : signedData}
         
         if( !(sndrPubKey && rcvrPubKey && signedData) ){
             throw "missing key";
@@ -46,10 +55,30 @@ app.post('/transfer', (req, res) => {
                 //Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
                 Promise.all([checkTxnId])
                     .then((values)=>{
-                        console.log('allgoood')
-                        let key = new rsa({b: 512});
-                        const encrypted = key.encrypt('something', 'base64');
-                        console.log(key.exportKey([ 'scheme-pkcs8-public' ]));
+                        utils.genKeyRetEncAndPub()
+                          .then((e)=>{
+                            e.encT = e.signedData;
+                            utils.encryptData(e.public_key, rcvrPubKey)
+                                .then(e=>{
+                                    returnData.encR = e;
+                                    // we should log and send data back now
+                                    let buf4 = new Buffer(JSON.stringify(returnData));
+                                    buf4.name = "data"
+                                    const client = new WebTorrent()
+                                    let hash;
+                                    client.seed(buf4, function (torrent) {
+                                        hash = torrent.infoHash
+                                        client.destroy()
+                                    })
+                                    // log into journal
+                                })
+                                .catch(e=>{
+                                    console.log(e)
+                                })
+                          })
+                        .catch((e)=>{
+                          console.log(e)
+                        })
                     })
                     .catch((e)=>{
                         console.log(e)

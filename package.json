@@ -16,7 +16,11 @@
     "hypertrie": "3.1.0",
     "kbpgp": "2.0.80",
     "node-rsa": "1.0.1",
-    "openpgp": "4.1.1"
+    "nt": "0.6.1",
+    "openpgp": "4.1.1",
+    "simple-sha1": "2.1.1",
+    "streamifier": "0.1.1",
+    "webtorrent": "0.102.4"
   },
   "devDependencies": {
     "@babel/cli": "7.1.2",
