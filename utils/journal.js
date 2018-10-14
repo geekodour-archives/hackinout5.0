@@ -1,34 +1,15 @@
 const hypercore = require('hypercore');
 const hypertrie = require('hypertrie');
-const db = hypertrie('../log/txnmap', {valueEncoding: 'json'});
-const feed = hypercore('../log/journal', {valueEncoding: 'json'});
 
-//function quote(val) {
-//    return '"'+val+'"';
-//}
-
-// function printall() {
-//     var db = hypertrie('./details', {valueEncoding: 'json'});
-//     var ite = db.iterator();
-//     ite.next(function loop(err, node) {
-//         if(err) {console.log(err); return;}
-//         if(!node) {console.log("not node");return;}
-//         console.log("node : "+node.key);
-//         console.log("val :" + node.value);
-//         ite.next(loop);
-//     })
-// }
-
-
-//function addValue(key, val) {
-//    db.put(key, val,()=>{ });
-//}
 
 function addEntry(metadata, stat) {
     metadata["status"] = stat;
+    console.log(metadata)
+    const feed = hypercore('./log/journal', {valueEncoding: 'json'});
+    const db = hypertrie('./log/txnmap', {valueEncoding: 'json'});
     feed.append(metadata,(err) => {
         let blockId = feed.length;
-        db.put(metadata['txnId'], blockId);
+        db.put(metadata['txId'], blockId);
     });
 }
 
@@ -60,5 +41,6 @@ function getTransaction(txnId,cb) {
 //});
 
 module.exports = {
-    getTransaction : getTransaction
+    getTransaction : getTransaction,
+    addEntry : addEntry
 }

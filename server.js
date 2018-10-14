@@ -57,7 +57,7 @@ app.post('/transfer', (req, res, next) => {
 
                 utils.genKeyRetEncAndPub()
                   .then((e)=>{
-                    e.encT = e.signedData;
+                    returnData.encT = e.signedData;
                     utils.encryptData(e.public_key, rcvrPubKey)
                         .then(e=>{
                             returnData.encR = e;
@@ -68,7 +68,8 @@ app.post('/transfer', (req, res, next) => {
                             let hash;
                             client.seed(buf4, function (torrent) {
                                 hash = torrent.infoHash
-                                console.log(hash)
+                                utils.appendToLog(metadata, hash, signedData, 'start')
+                                res.send(JSON.stringify(returnData));
                                 client.destroy()
                             })
                             // log into journal
@@ -79,8 +80,6 @@ app.post('/transfer', (req, res, next) => {
                   })
 
 
-                // 9. globalAppendLog(metadata, signedData, hash)
-                //  9.1 update hypertrie
                 // 10. send (metadata,A,B,signedData) to browser of sender
 
                 console.log('all good till now')
@@ -130,3 +129,5 @@ app.listen(port,'0.0.0.0', () => console.log(`Example app listening on port ${po
 // 6. encrypt 'something' with tempPrivateKey --> A
 // 7. encrypt tempPublicKey with rcvrPubKey  --> B
 // 8. hash = computeHash(File(A+B+signedData+metadata))
+// 9. globalAppendLog(metadata, signedData, hash)
+//  9.1 update hypertrie

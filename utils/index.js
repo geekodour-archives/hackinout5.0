@@ -126,11 +126,18 @@ const encryptData = (plainText, pubKey) => {
   });
 };
 
+const appendToLog = (metadata, hash, signedData, stat) => {
+    metadata['hash'] = hash
+    metadata['signedData'] = signedData
+    journal.addEntry(metadata, stat)
+}
+
 module.exports = {
   decryptSigned: decryptSigned,
   checkTxnId: checkTxnId,
   genKeyRetEncAndPub: generateKeyAndReturnEncDataAndPublicKey,
-  encryptData: encryptData
+  encryptData: encryptData,
+  appendToLog: appendToLog
 };
 
 /*
