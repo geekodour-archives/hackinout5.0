@@ -5,11 +5,15 @@ It's a decentralised p2p (blockchain-like) platform but the main difference bein
 ## Table of Contents
 
 - [Installation](#installation)
-- [Usage](#usage)
+- [Technologies Used](#technologies)
 
 ## Installation
 
 ```
-* npm install
-* npm start
+ npm install
+ npm start
 ```
+
+## Technologies Used
+
+- [DAT Project](https://github.com/datproject)
