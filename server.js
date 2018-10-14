@@ -1,8 +1,15 @@
-const express = require('express')
-const bodyParser = require('body-parser');
-const equal = require('deep-equal');
-const WebTorrent = require('webtorrent')
-const rsa = require('node-rsa');
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const equal = require("deep-equal");
+const WebTorrent = require("webtorrent");
+const rsa = require("node-rsa");
+const axios = require("axios");
+const qs = require("qs");
+
+
+
+
 
 
 //var crypto = require('crypto');
@@ -48,12 +55,11 @@ app.post('/transfer', (req, res) => {
                     throw "metadata and encryped metadata do not match"
                 }
                 //const checkTxnId = utils.checkTxnId(metadata.txId);
-                //const checkTime = utils.checkTime;
-                //const checkExist = utils.exist;
-                //const checkElgb = utils.eligible;
+                const checkExist = utils.checkExist(sndr, rcvr);
+                const checkElgb = utils.checkElgb(sndr, amt);
 
                 //Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
-                Promise.all([checkTxnId])
+                Promise.all([checkTxnId, checkExist, checkElgb])
                     .then((values)=>{
                         utils.genKeyRetEncAndPub()
                           .then((e)=>{
@@ -86,7 +92,6 @@ app.post('/transfer', (req, res) => {
                     })
 
                 // 1. check txnId
-                // 2. check time
                 // 3. exist
                 // 4. eligible
                 //  1.1 fetchUserHead.amount > amt
