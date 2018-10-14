@@ -144,7 +144,7 @@ module.exports = {
   checkTxnId: checkTxnId,
   genKeyRetEncAndPub: generateKeyAndReturnEncDataAndPublicKey,
   encryptData: encryptData,
-  appendToLog: appendToLog
+  appendToLog: appendToLog,
   updateUserData: updateUserData
 };
 

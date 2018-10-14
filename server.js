@@ -94,8 +94,8 @@ app.post('/redeem', (req, res, next) => {
     let metadata = req.body.metadata;
     utils.decryptSigned(encData,tempPubKey)
         .then((e)=>{
-            utils.updateUserData(metadata.sndr, metadata.amt, 0)
-            utils.updateUserData(metadata.rcvr, metadata.amt, 1)
+            //utils.updateUserData(metadata.sndr, metadata.amt, 0)
+            //utils.updateUserData(metadata.rcvr, metadata.amt, 1)
             utils.appendToLog(metadata, null, null, 'success')
             res.send(JSON.stringify({status: 'OK'}));
         })

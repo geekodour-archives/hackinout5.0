@@ -6,18 +6,19 @@ function updateUserAmount(username, amount, userType) {
     try{
       let feed = hypercore('./log/users/'+username, {valueEncoding: 'json'});
       feed.head((a)=>{
-        console.log(a)
-        resolve(a)
-        //if(userType === 0){
-        //  feed.append(a-amount);
-        //}
-        //else if(userType === 1){
-        //  feed.append(a+amount);
-        //}
+        console.log('DATA',a);
+        if(userType === 0){
+          feed.append(a-amount,()=>{ });
+          resolve(a-amount)
+        }
+        else if(userType === 1){
+          feed.append(a+amount,()=>{ });
+          resolve(a+amount)
+        }
       })
     }catch(e){
-      console.log(e)
-      reject()
+      feed.append(amount,()=>{});
+      resolve(amount)
     }
 
 
