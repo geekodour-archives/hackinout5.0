@@ -10,15 +10,7 @@ const utils = require('./utils')
 const app = express()
 app.use(bodyParser.json());
 app.use(cors())
-
-//app.use(function(req, res, next) {
-//  res.header("Access-Control-Allow-Origin", "*");
-//  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-//  next();
-//});
-
 const port = 8000
-
 
 app.get('/', (req, res) => res.send('Welcome to the API'))
 
@@ -96,26 +88,22 @@ app.post('/transfer', (req, res, next) => {
 
 })
 
-app.post('/redeem', (req, res) => {
-    // localhost/redeem?txid=ashjkhasdhjashd
-    // 1. get txid 
-    // 2. get txid data
-    //  2.1 if txid is already successful or failed return
-    //  2.2 check if expired(time)
-    //      2.2.1 log as failed
-    // 3. extract 'temp public key' from post data -->X 
-    // 4. extract 'encrypted stuff by temp private key' from post data --> Y
-    // 5. check if Y is decrypted by X
-    //  5.1 if not: discard and log as failed
-    //  5.2 if ok: continue
-    // 6. log update
-    //  6.1 update 3rd column in hypertrie with increment
-    //  6.2 update sender (amount, txnId)
-    //  6.3 update 3rd column in hypertrie with increment
-    //  6.2 update reciever (amount, txnId)
-    //  6.3 update 3rd column in hypertrie with increment
-    //  6.3 update global log + update htpertrie
-    // 7. send success info and dat replicate and public key of the user
+app.post('/redeem', (req, res, next) => {
+    let tempPubKey = req.body.tempPubKey;
+    let encData = req.body.encData;
+    utils.decryptSigned(encData,tempPubKey)
+        .then((e)=>{
+            console.log(e)
+            console.log('yess')
+            // 6.2 update sender (amount, txnId)
+            // 6.2 update reciever (amount, txnId)
+            // 6.3 update global log + update htpertrie
+            // 7. send success info and dat replicate and public key of the user
+        })
+        .catch((e)=>{
+            console.log('wrong enc key')
+            //  2.2.1 log as failed
+        })
 })
 
 app.listen(port,'0.0.0.0', () => console.log(`Example app listening on port ${port}!`))
