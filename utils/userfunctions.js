@@ -1,7 +1,27 @@
 var hypercore = require('hypercore');
-function updateUserAmount(user, amount) {
-    var feed = hypercore('./'+user, {valueEncoding: 'json'});
-    feed.append(amount);
+
+function updateUserAmount(username, amount, userType) {
+  return new Promise((resolve, reject)=>{
+
+    try{
+      let feed = hypercore('./log/users/'+username, {valueEncoding: 'json'});
+      feed.head((a)=>{
+        console.log(a)
+        resolve(a)
+        //if(userType === 0){
+        //  feed.append(a-amount);
+        //}
+        //else if(userType === 1){
+        //  feed.append(a+amount);
+        //}
+      })
+    }catch(e){
+      console.log(e)
+      reject()
+    }
+
+
+  })
 }
 
 function fetchUserAmount(user,cb) {
@@ -12,7 +32,6 @@ function fetchUserAmount(user,cb) {
     });
 }
 
-//random call 
-fetchUserAmount("devika", (err, data)=>{
-    console.log("dataaa :" + data);
-});
+module.exports = {
+    updateUserAmount : updateUserAmount
+}

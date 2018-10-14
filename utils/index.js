@@ -1,5 +1,6 @@
 const kbpgp = require("kbpgp");
 const journal = require("./journal");
+const userjournal = require("./userfunctions");
 const axios = require("axios");
 const qs = require("qs");
 const hypercore = require("hypercore");
@@ -132,12 +133,19 @@ const appendToLog = (metadata, hash, signedData, stat) => {
     journal.addEntry(metadata, stat)
 }
 
+const updateUserData = (username, amount, type) => {
+  userjournal.updateUserAmount(username, amount, type)
+    .then((e)=>console.log(e))
+    .catch((e)=>console.log(e,'errrr'))
+}
+
 module.exports = {
   decryptSigned: decryptSigned,
   checkTxnId: checkTxnId,
   genKeyRetEncAndPub: generateKeyAndReturnEncDataAndPublicKey,
   encryptData: encryptData,
   appendToLog: appendToLog
+  updateUserData: updateUserData
 };
 
 /*

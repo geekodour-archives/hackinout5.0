@@ -91,18 +91,16 @@ app.post('/transfer', (req, res, next) => {
 app.post('/redeem', (req, res, next) => {
     let tempPubKey = req.body.tempPubKey;
     let encData = req.body.encData;
+    let metadata = req.body.metadata;
     utils.decryptSigned(encData,tempPubKey)
         .then((e)=>{
-            console.log(e)
-            console.log('yess')
-            // 6.2 update sender (amount, txnId)
-            // 6.2 update reciever (amount, txnId)
-            // 6.3 update global log + update htpertrie
-            // 7. send success info and dat replicate and public key of the user
+            utils.updateUserData(metadata.sndr, metadata.amt, 0)
+            utils.updateUserData(metadata.rcvr, metadata.amt, 1)
+            utils.appendToLog(metadata, null, null, 'success')
+            res.send(JSON.stringify({status: 'OK'}));
         })
         .catch((e)=>{
-            console.log('wrong enc key')
-            //  2.2.1 log as failed
+            utils.appendToLog(metadata, null, null, 'failed')
         })
 })
 
