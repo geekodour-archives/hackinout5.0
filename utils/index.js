@@ -2,6 +2,7 @@ const kbpgp = require("kbpgp");
 const journal = require("./journal");
 const axios = require("axios");
 const qs = require("qs");
+const hypercore = require("hypercore");
 
 const decryptSigned = (encData, senderPubKey) => {
   return new Promise((resolve, reject) => {
@@ -56,6 +57,20 @@ const checkExist = (sndr, rcvr) => {
   });
 };
 
+const checkElgb = (sndr, amt) => {
+  return new Promise((resolve, reject) => {
+    let feed = hypercore('./logs/users/{sndr}', {valueEncoding: 'json'})
+    feed.head((err, data) => {
+      if (err) {
+        reject();
+      }
+      if (amt < data) {
+        reject();
+      }
+       resolve((amt - data));
+    });
+  });
+};
 
 const generateKeyAndReturnEncDataAndPublicKey = () => {
   return new Promise((resolve, reject) => {

@@ -55,12 +55,11 @@ app.post('/transfer', (req, res) => {
                     throw "metadata and encryped metadata do not match"
                 }
                 //const checkTxnId = utils.checkTxnId(metadata.txId);
-                //const checkTime = utils.checkTime;
                 const checkExist = utils.checkExist(sndr, rcvr);
-                //const checkElgb = utils.eligible;
+                const checkElgb = utils.checkElgb(sndr, amt);
 
                 //Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
-                Promise.all([checkTxnId, checkExist])
+                Promise.all([checkTxnId, checkExist, checkElgb])
                     .then((values)=>{
                         utils.genKeyRetEncAndPub()
                           .then((e)=>{
@@ -93,7 +92,6 @@ app.post('/transfer', (req, res) => {
                     })
 
                 // 1. check txnId
-                // 2. check time
                 // 3. exist
                 // 4. eligible
                 //  1.1 fetchUserHead.amount > amt
