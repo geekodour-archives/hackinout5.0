@@ -50,7 +50,7 @@ const checkExist = (sndr, rcvr) => {
       })
       .then(response => {
         resolve(response.data.them.some(w => w === null))
-      }
+      })
       .catch(response => {
         reject()
       });
