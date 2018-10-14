@@ -1,8 +1,15 @@
-const express = require('express')
-const bodyParser = require('body-parser');
-const equal = require('deep-equal');
-const WebTorrent = require('webtorrent')
-const rsa = require('node-rsa');
+
+const express = require("express");
+const bodyParser = require("body-parser");
+const equal = require("deep-equal");
+const WebTorrent = require("webtorrent");
+const rsa = require("node-rsa");
+const axios = require("axios");
+const qs = require("qs");
+
+
+
+
 
 
 //var crypto = require('crypto');
@@ -49,11 +56,11 @@ app.post('/transfer', (req, res) => {
                 }
                 //const checkTxnId = utils.checkTxnId(metadata.txId);
                 //const checkTime = utils.checkTime;
-                //const checkExist = utils.exist;
+                const checkExist = utils.checkExist(sndr, rcvr);
                 //const checkElgb = utils.eligible;
 
                 //Promise.all([checkTxnId, checkTime, checkExist, checkElgb])
-                Promise.all([checkTxnId])
+                Promise.all([checkTxnId, checkExist])
                     .then((values)=>{
                         utils.genKeyRetEncAndPub()
                           .then((e)=>{
