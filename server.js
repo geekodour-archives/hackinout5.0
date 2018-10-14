@@ -47,7 +47,7 @@ app.post('/transfer', (req, res) => {
                 if(!equal(metadata, req.body.metadata)){
                     throw "metadata and encryped metadata do not match"
                 }
-                const checkTxnId = utils.checkTxnId;
+                //const checkTxnId = utils.checkTxnId(metadata.txId);
                 //const checkTime = utils.checkTime;
                 //const checkExist = utils.exist;
                 //const checkElgb = utils.eligible;
