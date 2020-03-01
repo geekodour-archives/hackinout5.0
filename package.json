@@ -9,7 +9,7 @@
   "author": "Hrishikesh Barman <Hrishikesh Barman> (https://geekodour.github.io/)",
   "license": "ISC",
   "dependencies": {
-    "axios": "0.18.0",
+    "axios": "0.19.2",
     "body-parser": "1.18.3",
     "cors": "2.8.4",
     "deep-equal": "1.0.1",
