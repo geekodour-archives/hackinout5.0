@@ -22,7 +22,7 @@
     "openpgp": "4.1.1",
     "simple-sha1": "2.1.1",
     "streamifier": "0.1.1",
-    "webtorrent": "0.102.4"
+    "webtorrent": "0.107.17"
   },
   "devDependencies": {
     "@babel/cli": "7.1.2",
